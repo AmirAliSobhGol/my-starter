@@ -4,43 +4,30 @@
     "node": true,
     "browser": true
   },
+  "settings": {
+    "import/resolver": "webpack"
+  },
   "parser": "babel-eslint",
   "plugins": [
     "flowtype"
   ],
-  "extends": "eslint:recommended",
+  "extends": "airbnb-base",
   "globals": {
     "TOKEN_NAME": false,
     "API_URL": false,
     "ENV": false,
-    "moment": false,
-    "_": false
+    "moment": false
   },
   "rules": {
-    "no-useless-escape": [
-      "warn"
-    ],
-    "no-unused-vars": [
-      "warn"
-    ],
-    "no-console": [
-      "warn"
-    ],
-    "indent": [
-      "warn",
-      "tab"
-    ],
-    "linebreak-style": [
+    "no-param-reassign" : [
       "error",
-      "unix"
+      {"props": false}
     ],
-    "quotes": [
-      "warn",
-      "single"
+    "import/prefer-default-export": [
+      "off"
     ],
-    "semi": [
-      "warn",
-      "always"
+    "class-methods-use-this" : [
+      "off"
     ]
   }
 }

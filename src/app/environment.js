@@ -1,16 +1,10 @@
-import {
-	enableDebugTools,
-	disableDebugTools
-} from '@angular/platform-browser';
-import {
-	ApplicationRef,
-	enableProdMode,
-} from '@angular/core';
+import { enableDebugTools, disableDebugTools } from '@angular/platform-browser';
+import { ApplicationRef, enableProdMode } from '@angular/core';
 /**
  * Environment Providers
  */
 let PROVIDERS: any[] = [
-	/**
+  /**
    * Common env directives
    */
 ];
@@ -19,55 +13,50 @@ let PROVIDERS: any[] = [
  * Angular debug tools in the dev console
  * https://github.com/angular/angular/blob/86405345b781a9dc2438c0fbe3e9409245647019/TOOLS_JS.md
  */
-let _decorateModuleRef = <T>(value: T): T => { return value; };
+/* eslint-disable no-underscore-dangle */
+let _decorateModuleRef = value => value;
 
-if ('production' === ENV) {
-	enableProdMode();
+if (ENV === 'production') {
+  enableProdMode();
 
-	/**
+  /**
    * Production
    */
-	_decorateModuleRef = (modRef: any) => {
-		disableDebugTools();
+  _decorateModuleRef = (modRef: any) => {
+    disableDebugTools();
 
-		return modRef;
-	};
+    return modRef;
+  };
 
-	PROVIDERS = [
-		...PROVIDERS,
-		/**
+  PROVIDERS = [
+    ...PROVIDERS,
+    /**
      * Custom providers in production.
      */
-	];
+  ];
+} else {
+  _decorateModuleRef = (modRef) => {
+    const appRef = modRef.injector.get(ApplicationRef);
+    const cmpRef = appRef.components[0];
 
-}
-else {
+    const ng = window.ng;
+    enableDebugTools(cmpRef);
+    window.ng.probe = ng.probe;
+    window.ng.coreTokens = ng.coreTokens;
+    return modRef;
+  };
 
-	_decorateModuleRef = (modRef) => {
-		const appRef = modRef.injector.get(ApplicationRef);
-		const cmpRef = appRef.components[0];
-
-		let _ng = window.ng;
-		enableDebugTools(cmpRef);
-		window.ng.probe = _ng.probe;
-		window.ng.coreTokens = _ng.coreTokens;
-		return modRef;
-	};
-
-	/**
+  /**
    * Development
    */
-	PROVIDERS = [
-		...PROVIDERS,
-		/**
+  PROVIDERS = [
+    ...PROVIDERS,
+    /**
      * Custom providers in development.
      */
-	];
-
+  ];
 }
 
 export const decorateModuleRef = _decorateModuleRef;
 
-export const ENV_PROVIDERS = [
-	...PROVIDERS
-];
+export const ENV_PROVIDERS = [...PROVIDERS];

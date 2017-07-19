@@ -1,12 +1,12 @@
 import { Injectable, PipeTransform, Pipe } from '@angular/core';
 
 @Pipe({
-	name: 'truncate',
-	pure: true
+  name: 'truncate',
+  pure: true,
 })
 @Injectable()
 export class TruncatePipe implements PipeTransform {
-	/**
+  /**
    * The total number of character returned by this filter is value.length + trail.length
    *
    * @example `{{ "Some too long string" | truncate }}`
@@ -16,31 +16,26 @@ export class TruncatePipe implements PipeTransform {
    * @example `{{ "Some too long string" | truncate :15:null:'middle" }}`
    *
    * @param {string} value Input string passed to the filter.
-   * @param {string} [limit=10] The number of kept characters. If the `value` string has more than `limit` characters, they will be replaced by the `trail` string.
+   * @param {string} [limit=10] The number of kept characters.
    * @param {string} [trail="..."] The string which will replace extra characters.
-   * @param {string} [position="right"] The position of replacement string. Allowed values are 'left' | 'right' | 'middle'.
+   * @param {string} [position="right"] The position of replacement string.
+   * Allowed values are 'left'|'right'|'middle'.
    * @returns {string}
    */
-	transform(value: string, limit: number, trail: string, position: string): string {
-		value = value || '';  // handle undefined/null value
-		limit = limit || 10;
-		trail = trail || '...';
-		position = position || 'right';
-
-		if (position === 'left') {
-			return value.length > limit
-				? trail + value.substring(value.length - limit, value.length)
-				: value;
-		} else if (position === 'right') {
-			return value.length > limit
-				? value.substring(0, limit) + trail
-				: value;
-		} else if (position === 'middle') {
-			return value.length > limit
-				? value.substring(0, limit/2) + trail + value.substring(value.length - limit/2, value.length)
-				: value;
-		} else {
-			return value;
-		}
-	}
+  transform(value = '', limit = 10, trail = '...', position = 'right') {
+    if (position === 'left') {
+      return value.length > limit
+        ? trail + value.substring(value.length - limit, value.length)
+        : value;
+    } else if (position === 'right') {
+      return value.length > limit ? value.substring(0, limit) + trail : value;
+    } else if (position === 'middle') {
+      return value.length > limit
+        ? value.substring(0, limit / 2) +
+          trail +
+          value.substring((value.length - limit) / 2, value.length)
+        : value;
+    }
+    return value;
+  }
 }

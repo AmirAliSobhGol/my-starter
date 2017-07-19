@@ -26,7 +26,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = false;
 const METADATA = {
-  title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
+  title: 'Fleetwise',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer(),
   HMR: HMR
@@ -72,7 +72,6 @@ module.exports = function (options) {
        * See: https://webpack.js.org/configuration/resolve/#resolve-alias
        */
       alias: {
-        common: helpers.root('src', 'app/common'),
         core: helpers.root('src', 'app/core')
       },
 
