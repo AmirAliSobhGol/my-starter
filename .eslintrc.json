@@ -9,9 +9,14 @@
   },
   "parser": "babel-eslint",
   "plugins": [
-    "flowtype"
+    "flowtype",
+    "prettier"
   ],
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "prettier/flowtype"
+  ],
   "globals": {
     "TOKEN_NAME": false,
     "API_URL": false,
@@ -19,6 +24,7 @@
     "moment": false
   },
   "rules": {
+    "prettier/prettier": "error",
     "no-param-reassign" : [
       "error",
       {"props": false}
