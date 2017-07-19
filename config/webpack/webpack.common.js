@@ -102,7 +102,7 @@ module.exports = function (options) {
           test: /\.js$/,
           enforce: "pre",
           loader: "eslint-loader",
-          include: [helpers.root('src/')],
+          include: [helpers.root('src/app/')],
           exclude: [/\.(spec|e2e)\.js$/, /(assets)/]
         },
 

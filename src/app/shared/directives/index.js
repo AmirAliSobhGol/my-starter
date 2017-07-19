@@ -1,3 +1,3 @@
-import { AccessDirective } from './access.directive';
+import { AccessDirective } from "./access.directive";
 
 export const Directives = [AccessDirective];

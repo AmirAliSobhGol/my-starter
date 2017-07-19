@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { AuthHttp } from 'angular2-jwt';
-import { RequestOptionsArgs, Response } from '@angular/http';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { AuthHttp } from "angular2-jwt";
+import { RequestOptionsArgs, Response } from "@angular/http";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
+import { Observable } from "rxjs";
 
 /*
  * Here we extend the AuthHttp to automatically add our API url and handle token.
@@ -46,7 +46,7 @@ export class CustomAuthHttp extends AuthHttp {
   handleError(error) {
     let err;
     if (error instanceof Response) {
-      err = error.json() || '';
+      err = error.json() || "";
     } else {
       err = error.message ? error.message : error.toString();
     }
@@ -62,7 +62,7 @@ export class CustomAuthHttp extends AuthHttp {
    * this method is added, because the server sends a refresh token on requests
    */
   handleToken(res) {
-    const token = res.headers.get('authorization');
+    const token = res.headers.get("authorization");
     if (token) {
       localStorage.setItem(TOKEN_NAME, token);
     }

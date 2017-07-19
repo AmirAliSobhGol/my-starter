@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
 
-import { ToggleComponent } from './components/toggle.component';
-import { TruncatePipe } from './pipes/truncate.pipe';
-import { Directives } from './directives/index';
+import { ToggleComponent } from "./components/toggle.component";
+import { TruncatePipe } from "./pipes/truncate.pipe";
+import { Directives } from "./directives/index";
 
 /**
  * Shared directives/pipes/components are defined here.
@@ -23,7 +23,7 @@ import { Directives } from './directives/index';
     ReactiveFormsModule,
     ToggleComponent,
     TruncatePipe,
-    Directives,
-  ],
+    Directives
+  ]
 })
 export class SharedModule {}

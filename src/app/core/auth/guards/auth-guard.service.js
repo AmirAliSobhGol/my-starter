@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppAuthService } from '../auth.service';
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { AppAuthService } from "../auth.service";
 
 @Injectable()
 export class AuthGuard {

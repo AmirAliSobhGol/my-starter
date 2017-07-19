@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppAuthService } from '../auth.service';
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { AppAuthService } from "../auth.service";
 
 @Injectable()
 export class UserGuard {
@@ -21,7 +21,7 @@ export class UserGuard {
     if (this.auth.isUser()) {
       return true;
     }
-    this.router.navigate(['/home']);
+    this.router.navigate(["/home"]);
     return false;
   }
 }

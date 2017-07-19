@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import 'rxjs/add/operator/filter';
-import { JwtHelper } from 'angular2-jwt';
+import { Component } from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
+import "rxjs/add/operator/filter";
+import { JwtHelper } from "angular2-jwt";
 
-import { ToggleService } from './sidebar.service';
-import { AppAuthService } from '../auth/auth.service';
+import { ToggleService } from "./sidebar.service";
+import { AppAuthService } from "../auth/auth.service";
 
 /*
  * This class represents the side bar component.
  */
 @Component({
-  selector: 'app-sidebar',
-  styleUrls: ['sidebar.component.scss'],
-  templateUrl: 'sidebar.component.pug',
+  selector: "app-sidebar",
+  styleUrls: ["sidebar.component.scss"],
+  templateUrl: "sidebar.component.pug"
 })
 export class SidebarComponent {
   showSideBar = false;
@@ -21,7 +21,7 @@ export class SidebarComponent {
   constructor(
     router: Router,
     toggleService: ToggleService,
-    appAuthService: AppAuthService,
+    appAuthService: AppAuthService
   ) {
     this.appAuthService = appAuthService;
     this.router = router;
@@ -32,14 +32,14 @@ export class SidebarComponent {
      */
     router.events
       .filter(event => event instanceof NavigationEnd)
-      .subscribe((event) => {
+      .subscribe(event => {
         this.showSideBar =
-          !event.urlAfterRedirects.includes('auth') &&
-          !event.urlAfterRedirects.includes('notFound');
+          !event.urlAfterRedirects.includes("auth") &&
+          !event.urlAfterRedirects.includes("notFound");
       });
 
     toggleService.toggle.subscribe(
-      () => (this.toggleSideBar = !this.toggleSideBar),
+      () => (this.toggleSideBar = !this.toggleSideBar)
     );
   }
 

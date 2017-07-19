@@ -1,10 +1,10 @@
-import { Directive, ElementRef, Input } from '@angular/core';
-import { AppAuthService } from 'core/auth/auth.service';
+import { Directive, ElementRef, Input } from "@angular/core";
+import { AppAuthService } from "core/auth/auth.service";
 @Directive({
-  selector: '[access]',
+  selector: "[access]"
 })
 export class AccessDirective {
-  @Input('access') role;
+  @Input("access") role;
 
   constructor(element: ElementRef, authService: AppAuthService) {
     this.element = element;
@@ -13,7 +13,7 @@ export class AccessDirective {
 
   ngOnInit() {
     if (this.authService.role() !== this.role) {
-      this.element.nativeElement.style.display = 'none';
+      this.element.nativeElement.style.display = "none";
     }
   }
 }

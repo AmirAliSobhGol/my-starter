@@ -1,5 +1,5 @@
-import { enableDebugTools, disableDebugTools } from '@angular/platform-browser';
-import { ApplicationRef, enableProdMode } from '@angular/core';
+import { enableDebugTools, disableDebugTools } from "@angular/platform-browser";
+import { ApplicationRef, enableProdMode } from "@angular/core";
 /**
  * Environment Providers
  */
@@ -16,7 +16,7 @@ let PROVIDERS: any[] = [
 /* eslint-disable no-underscore-dangle */
 let _decorateModuleRef = value => value;
 
-if (ENV === 'production') {
+if (ENV === "production") {
   enableProdMode();
 
   /**
@@ -29,13 +29,13 @@ if (ENV === 'production') {
   };
 
   PROVIDERS = [
-    ...PROVIDERS,
+    ...PROVIDERS
     /**
      * Custom providers in production.
      */
   ];
 } else {
-  _decorateModuleRef = (modRef) => {
+  _decorateModuleRef = modRef => {
     const appRef = modRef.injector.get(ApplicationRef);
     const cmpRef = appRef.components[0];
 
@@ -50,7 +50,7 @@ if (ENV === 'production') {
    * Development
    */
   PROVIDERS = [
-    ...PROVIDERS,
+    ...PROVIDERS
     /**
      * Custom providers in development.
      */

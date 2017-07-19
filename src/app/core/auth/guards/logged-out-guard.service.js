@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppAuthService } from '../auth.service';
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { AppAuthService } from "../auth.service";
 
 @Injectable()
 export class LoggedOutGuard {
@@ -11,7 +11,7 @@ export class LoggedOutGuard {
 
   canLoad() {
     if (!this.auth.loggedIn()) {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(["/auth/login"]);
       return false;
     }
     return true;

@@ -1,24 +1,24 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ApplicationRef } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule, ApplicationRef } from "@angular/core";
 import {
   removeNgStyles,
   createNewHosts,
-  createInputTransfer,
-} from '@angularclass/hmr';
+  createInputTransfer
+} from "@angularclass/hmr";
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
+import { ENV_PROVIDERS } from "./environment";
 
 // App is our top level component
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
 
-import { CoreModule } from './core/core.module';
+import { CoreModule } from "./core/core.module";
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from "./app-routing.module";
 
-import '../styles/styles.scss';
+import "../styles/styles.scss";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -33,7 +33,7 @@ import '../styles/styles.scss';
   /**
    * Expose our Services and Providers into Angular's dependency injection.
    */
-  providers: [ENV_PROVIDERS],
+  providers: [ENV_PROVIDERS]
 })
 export class AppModule {
   constructor(appRef: ApplicationRef) {
@@ -48,7 +48,7 @@ export class AppModule {
     /**
      * Set input values
      */
-    if ('restoreInputValues' in store) {
+    if ("restoreInputValues" in store) {
       const restoreInputValues = store.restoreInputValues;
       setTimeout(restoreInputValues);
     }
@@ -60,7 +60,7 @@ export class AppModule {
 
   hmrOnDestroy(store) {
     const cmpLocation = this.appRef.components.map(
-      cmp => cmp.location.nativeElement,
+      cmp => cmp.location.nativeElement
     );
 
     /**

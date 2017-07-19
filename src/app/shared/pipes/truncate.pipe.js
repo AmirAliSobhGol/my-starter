@@ -1,8 +1,8 @@
-import { Injectable, PipeTransform, Pipe } from '@angular/core';
+import { Injectable, PipeTransform, Pipe } from "@angular/core";
 
 @Pipe({
-  name: 'truncate',
-  pure: true,
+  name: "truncate",
+  pure: true
 })
 @Injectable()
 export class TruncatePipe implements PipeTransform {
@@ -22,14 +22,14 @@ export class TruncatePipe implements PipeTransform {
    * Allowed values are 'left'|'right'|'middle'.
    * @returns {string}
    */
-  transform(value = '', limit = 10, trail = '...', position = 'right') {
-    if (position === 'left') {
+  transform(value = "", limit = 10, trail = "...", position = "right") {
+    if (position === "left") {
       return value.length > limit
         ? trail + value.substring(value.length - limit, value.length)
         : value;
-    } else if (position === 'right') {
+    } else if (position === "right") {
       return value.length > limit ? value.substring(0, limit) + trail : value;
-    } else if (position === 'middle') {
+    } else if (position === "middle") {
       return value.length > limit
         ? value.substring(0, limit / 2) +
           trail +

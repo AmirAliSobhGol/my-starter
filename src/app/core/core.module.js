@@ -1,11 +1,11 @@
-import { AuthHttp } from 'angular2-jwt';
-import { RouterModule } from '@angular/router';
+import { AuthHttp } from "angular2-jwt";
+import { RouterModule } from "@angular/router";
 /* eslint-disable no-unused-vars */
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from "@angular/core";
 /* eslint-enable no-unused-vars */
-import { HttpModule, Http, RequestOptions } from '@angular/http';
+import { HttpModule, Http, RequestOptions } from "@angular/http";
 
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from "../shared/shared.module";
 
 import {
   AppAuthService,
@@ -15,8 +15,8 @@ import {
   SidebarComponent,
   ToggleService,
   UserGuard,
-  AdminGuard,
-} from './index';
+  AdminGuard
+} from "./index";
 
 /**
  * Single-use components (e.g., spinners, message toasts, and modal dialogs)
@@ -26,17 +26,17 @@ import {
 @NgModule({
   imports: [SharedModule, HttpModule, RouterModule],
   declarations: [SidebarComponent],
-  exports: [SidebarComponent],
+  exports: [SidebarComponent]
 })
 export class CoreModule {
   constructor(
-  @Optional()
-  @SkipSelf()
-    parentModule: CoreModule,
+    @Optional()
+    @SkipSelf()
+    parentModule: CoreModule
   ) {
     if (parentModule) {
       throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only',
+        "CoreModule is already loaded. Import it in the AppModule only"
       );
     }
   }
@@ -54,15 +54,15 @@ export class CoreModule {
         {
           provide: AuthHttp,
           useFactory: authHttpServiceFactory,
-          deps: [Http, RequestOptions],
+          deps: [Http, RequestOptions]
         },
         AuthGuard,
         AppAuthService,
         LoggedOutGuard,
         ToggleService,
         UserGuard,
-        AdminGuard,
-      ],
+        AdminGuard
+      ]
     };
   }
 }
