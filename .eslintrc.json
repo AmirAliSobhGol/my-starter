@@ -1,39 +1,46 @@
 {
-  "env": {
-    "es6": true,
-    "node": true,
-    "browser": true
-  },
-  "settings": {
-    "import/resolver": "webpack"
-  },
-  "parser": "babel-eslint",
-  "plugins": [
-    "flowtype",
-    "prettier"
-  ],
   "extends": [
     "airbnb-base",
     "prettier",
     "prettier/flowtype"
   ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "all"
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "import/prefer-default-export": [
+      "off"
+    ],
+    "class-methods-use-this": [
+      "off"
+    ]
+  },
   "globals": {
     "TOKEN_NAME": false,
     "API_URL": false,
     "ENV": false,
     "moment": false
   },
-  "rules": {
-    "prettier/prettier": "error",
-    "no-param-reassign" : [
-      "error",
-      {"props": false}
-    ],
-    "import/prefer-default-export": [
-      "off"
-    ],
-    "class-methods-use-this" : [
-      "off"
-    ]
+  "settings": {
+    "import/resolver": "webpack"
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true
   }
 }

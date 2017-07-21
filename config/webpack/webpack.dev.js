@@ -7,6 +7,7 @@ const commonConfig = require('./webpack.common.js'); // the settings that are co
 /**
  * Webpack Plugins
  */
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
@@ -109,7 +110,13 @@ module.exports = function (options) {
          */
         {
           test: /\.scss$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
+          use: [
+            'style-loader',
+            'css-loader',
+            'postcss-loader?sourceMap',
+            'resolve-url-loader',
+            'sass-loader?sourceMap',
+          ],
           include: [helpers.root('src', 'styles')]
         },
 
@@ -118,6 +125,8 @@ module.exports = function (options) {
     },
 
     plugins: [
+
+      new StyleLintPlugin(),
 
       /**
        * Plugin: DefinePlugin

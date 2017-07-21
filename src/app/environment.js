@@ -29,7 +29,7 @@ if (ENV === "production") {
   };
 
   PROVIDERS = [
-    ...PROVIDERS
+    ...PROVIDERS,
     /**
      * Custom providers in production.
      */
@@ -50,7 +50,7 @@ if (ENV === "production") {
    * Development
    */
   PROVIDERS = [
-    ...PROVIDERS
+    ...PROVIDERS,
     /**
      * Custom providers in development.
      */

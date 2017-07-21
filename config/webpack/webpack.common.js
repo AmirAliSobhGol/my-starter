@@ -1,5 +1,5 @@
-const webpack = require('webpack');
-const helpers = require('./../helpers');
+const webpack = require("webpack");
+const helpers = require("./../helpers");
 
 /**
  * Webpack Plugins
@@ -7,29 +7,29 @@ const helpers = require('./../helpers');
  * problem with copy-webpack-plugin
  */
 // See: https://github.com/kossnocorp/assets-webpack-plugin
-const AssetsPlugin = require('assets-webpack-plugin');
+const AssetsPlugin = require("assets-webpack-plugin");
 
-const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
-const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlElementsPlugin = require('./../html-elements-plugin/index');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-//const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const NormalModuleReplacementPlugin = require("webpack/lib/NormalModuleReplacementPlugin");
+const ContextReplacementPlugin = require("webpack/lib/ContextReplacementPlugin");
+const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlElementsPlugin = require("./../html-elements-plugin/index");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+// const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 /**
  * Webpack Constants
  */
-const HMR = helpers.hasProcessFlag('hot');
+const HMR = helpers.hasProcessFlag("hot");
 const AOT = false;
 const METADATA = {
-  title: 'Fleetwise',
-  baseUrl: '/',
+  title: "Fleetwise",
+  baseUrl: "/",
   isDevServer: helpers.isWebpackDevServer(),
-  HMR: HMR
+  HMR,
 };
 
 /**
@@ -37,10 +37,9 @@ const METADATA = {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = function (options) {
-  isProd = options.env === 'production';
+module.exports = function(options) {
+  const isProd = options.env === "production";
   return {
-
     /**
      * Cache generated modules and chunks to improve performance for multiple incremental builds.
      * This is enabled by default in watch mode.
@@ -48,7 +47,7 @@ module.exports = function (options) {
      *
      * See: http://webpack.github.io/docs/configuration.html#cache
      */
-    //cache: false,
+    // cache: false,
 
     /**
      * The entry point for the bundle
@@ -57,8 +56,8 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#entry
      */
     entry: {
-      'polyfills': './src/polyfills.browser.js',
-      'main': './src/main.browser.js'
+      polyfills: "./src/polyfills.browser.js",
+      main: ["./src/main.browser.js", "bootstrap-loader"],
     },
 
     /**
@@ -67,12 +66,11 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#resolve
      */
     resolve: {
-
       /*
        * See: https://webpack.js.org/configuration/resolve/#resolve-alias
        */
       alias: {
-        core: helpers.root('src', 'app/core')
+        core: helpers.root("src", "app/core"),
       },
 
       /**
@@ -80,13 +78,12 @@ module.exports = function (options) {
        *
        * See: http://webpack.github.io/docs/configuration.html#resolve-extensions
        */
-      extensions: ['.js', '.json'],
+      extensions: [".js", ".json"],
 
       /**
        * An array of directory names to be resolved to the current directory
        */
-      modules: [helpers.root('src'), helpers.root('node_modules')],
-
+      modules: [helpers.root("src"), helpers.root("node_modules")],
     },
 
     /**
@@ -95,15 +92,26 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#module
      */
     module: {
-
       rules: [
-
+        /**
+         * ESlint loader
+         * This loader will output errors based on the .eslintrc file
+         * See: https://github.com/MoOx/eslint-loader
+         */
         {
           test: /\.js$/,
           enforce: "pre",
           loader: "eslint-loader",
-          include: [helpers.root('src/app/')],
-          exclude: [/\.(spec|e2e)\.js$/, /(assets)/]
+          options: {
+            cache: true,
+            /**
+             * Be careful: this option might cause webpack to enter an infinite build loop
+             * if some issues cannot be fixed properly.
+             */
+            fix: true,
+          },
+          include: [helpers.root("src/app/")],
+          exclude: [/\.(spec|e2e)\.js$/, /(assets)/],
         },
 
         /**
@@ -123,35 +131,35 @@ module.exports = function (options) {
           test: /\.js$/,
           use: [
             {
-              loader: 'babel-loader',
+              loader: "babel-loader",
               query: {
-                presets: [['es2015', {modules: false}], 'angular2'],
-              }
+                presets: [["es2015", { modules: false }], "angular2"],
+              },
             },
             {
-              loader: 'angular2-template-loader'
+              loader: "angular2-template-loader",
             },
             {
-              loader: '@angularclass/hmr-loader',
+              loader: "@angularclass/hmr-loader",
               options: {
                 pretty: !isProd,
-                prod: isProd
-              }
+                prod: isProd,
+              },
             },
             {
               /**
                *  MAKE SURE TO CHAIN VANILLA JS CODE, I.E. TS COMPILATION OUTPUT.
                */
-              loader: 'ng-router-loader',
+              loader: "ng-router-loader",
               options: {
-                loader: 'async-import',
-                genDir: 'compiled',
-                aot: AOT
-              }
+                loader: "async-import",
+                genDir: "compiled",
+                aot: AOT,
+              },
             },
           ],
-          include: [helpers.root('src/')],
-          exclude: [/\.(spec|e2e)\.js$/, /(assets)/]
+          include: [helpers.root("src/")],
+          exclude: [/\.(spec|e2e)\.js$/, /(assets)/],
         },
 
         /**
@@ -161,7 +169,7 @@ module.exports = function (options) {
          */
         {
           test: /\.json$/,
-          use: 'json-loader'
+          use: "json-loader",
         },
 
         /**
@@ -171,33 +179,41 @@ module.exports = function (options) {
          */
         {
           test: /\.css$/,
-          use: ['to-string-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true, importLoaders: 1
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                config: {
-                  path: helpers.root('config', 'postcss.config.js')
-                }
-              }
-            }],
-          exclude: [helpers.root('src', 'styles')]
+          use: ["to-string-loader", "css-loader", "postcss-loader"],
+          exclude: [helpers.root("src", "styles")],
         },
 
         /**
          * To string and sass loader support for *.scss files (from Angular components)
          * Returns compiled css content as string
-         *
+         * TODO: when windows support for sass-resources-loader is added, resources should be one file
          */
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader'],
-          exclude: [helpers.root('src', 'styles')]
+          use: [
+            "to-string-loader",
+            "css-loader",
+            "postcss-loader?sourceMap",
+            "resolve-url-loader",
+            "sass-loader?sourceMap",
+            {
+              loader: "sass-resources-loader",
+              options: {
+                resources: [
+                  helpers.root("src", "styles/resources/**/*.scss"),
+                  helpers.root(
+                    "node_modules",
+                    "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss"
+                  ),
+                  helpers.root(
+                    "node_modules",
+                    "bootstrap-sass/assets/stylesheets/bootstrap/mixins/*.scss"
+                  ),
+                ],
+              },
+            },
+          ],
+          exclude: [helpers.root("src", "styles")],
         },
 
         /**
@@ -208,8 +224,8 @@ module.exports = function (options) {
          */
         {
           test: /\.html$/,
-          use: 'raw-loader',
-          exclude: [helpers.root('src/index.html')]
+          use: "raw-loader",
+          exclude: [helpers.root("src/index.html")],
         },
 
         /**
@@ -219,7 +235,7 @@ module.exports = function (options) {
          */
         {
           test: /\.(pug)$/,
-          use: ['raw-loader', 'pug-html-loader']
+          use: ["raw-loader", "pug-html-loader"],
         },
 
         /**
@@ -227,18 +243,16 @@ module.exports = function (options) {
          */
         {
           test: /\.(jpg|png|gif)$/,
-          use: 'file-loader'
+          use: "file-loader",
         },
 
         /* File loader for supporting fonts, for example, in CSS files.
          */
         {
           test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
-          use: 'file-loader'
-        }
-
+          use: "file-loader",
+        },
       ],
-
     },
 
     /**
@@ -254,7 +268,6 @@ module.exports = function (options) {
       //   prettyPrint: true
       // }),
 
-
       /**
        * Plugin: CommonsChunkPlugin
        * Description: Shares common code between the pages.
@@ -264,8 +277,8 @@ module.exports = function (options) {
        * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
        */
       new CommonsChunkPlugin({
-        name: 'polyfills',
-        chunks: ['polyfills']
+        name: "polyfills",
+        chunks: ["polyfills"],
       }),
       /**
        * This enables tree shaking of the vendor modules
@@ -298,7 +311,7 @@ module.exports = function (options) {
          * The (\\|\/) piece accounts for path separators in *nix and Windows
          */
         /angular(\\|\/)core(\\|\/)@angular/,
-        helpers.root('src'), // location of your src
+        helpers.root("src"), // location of your src
         {
           /**
            * Your Angular Async Route paths relative to this root directory
@@ -314,11 +327,9 @@ module.exports = function (options) {
        *
        * See: https://www.npmjs.com/package/copy-webpack-plugin
        */
-      new CopyWebpackPlugin([
-          {from: 'src/assets', to: 'assets'},
-          {from: 'src/meta'}
-        ],
-        isProd ? {ignore: ['mock-data/**/*']} : undefined
+      new CopyWebpackPlugin(
+        [{ from: "src/assets", to: "assets" }, { from: "src/meta" }],
+        isProd ? { ignore: ["mock-data/**/*"] } : undefined
       ),
 
       /*
@@ -328,17 +339,17 @@ module.exports = function (options) {
        *
        * See: https://github.com/GoogleChrome/preload-webpack-plugin
        */
-      //new PreloadWebpackPlugin({
+      // new PreloadWebpackPlugin({
       //  rel: 'preload',
       //  as: 'script',
       //  include: ['polyfills', 'vendor', 'main'].reverse(),
       //  fileBlacklist: ['.css', '.map']
-      //}),
-      //new PreloadWebpackPlugin({
+      // }),
+      // new PreloadWebpackPlugin({
       //  rel: 'prefetch',
       //  as: 'script',
       //  include: 'asyncChunks'
-      //}),
+      // }),
 
       /**
        * Plugin: ScriptExtHtmlWebpackPlugin
@@ -349,9 +360,9 @@ module.exports = function (options) {
        */
       new ScriptExtHtmlWebpackPlugin({
         sync: /polyfill|vendor/,
-        defaultAttribute: 'async',
+        defaultAttribute: "async",
         preload: [/polyfill|vendor|main/],
-        prefetch: [/chunk/]
+        prefetch: [/chunk/],
       }),
 
       /*
@@ -363,11 +374,11 @@ module.exports = function (options) {
        * See: https://github.com/ampedandwired/html-webpack-plugin
        */
       new HtmlWebpackPlugin({
-        template: 'src/index.html',
+        template: "src/index.html",
         title: METADATA.title,
-        chunksSortMode: 'dependency',
+        chunksSortMode: "dependency",
         metadata: METADATA,
-        inject: 'body'
+        inject: "body",
       }),
 
       /**
@@ -393,7 +404,7 @@ module.exports = function (options) {
        * Dependencies: HtmlWebpackPlugin
        */
       new HtmlElementsPlugin({
-        headTags: require('./../head-config.common.js')
+        headTags: require("./../head-config.common.js"),
       }),
 
       /**
@@ -408,7 +419,7 @@ module.exports = function (options) {
        * for example _ as lodash or $ as jquery
        */
       new webpack.ProvidePlugin({
-        _: 'lodash'
+        _: "lodash",
       }),
 
       /**
@@ -428,12 +439,11 @@ module.exports = function (options) {
      */
     node: {
       global: true,
-      crypto: 'empty',
+      crypto: "empty",
       process: true,
       module: false,
       clearImmediate: false,
-      setImmediate: false
-    }
-
+      setImmediate: false,
+    },
   };
 };

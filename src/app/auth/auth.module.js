@@ -11,6 +11,6 @@ import { LoginComponent } from "./login/login.component";
 @NgModule({
   imports: [ReactiveFormsModule, CommonModule, AuthRoutingModule],
   declarations: [LoginComponent],
-  providers: [AppAuthService]
+  providers: [AppAuthService],
 })
 export class AuthModule {}

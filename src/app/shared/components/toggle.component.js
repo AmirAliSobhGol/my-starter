@@ -11,7 +11,7 @@ import { ToggleService } from "core/sidebar/sidebar.service";
     <button class='btn btn-primary' (click)="toggleSideBar()">
       <span class="fa fa-bars"></span>
     </button>
-  `
+  `,
 })
 export class ToggleComponent {
   showSideBar = false;

@@ -10,19 +10,19 @@ const appRoutes = [
     path: "auth",
     loadChildren: () =>
       System.import("./auth/auth.module").then(module => module.AuthModule),
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
   {
     path: "",
     redirectTo: "/auth/login",
     pathMatch: "full",
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
   },
-  { path: "**", redirectTo: "/auth/login" }
+  { path: "**", redirectTo: "/auth/login" },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

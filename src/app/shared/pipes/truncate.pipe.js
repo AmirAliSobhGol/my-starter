@@ -2,7 +2,7 @@ import { Injectable, PipeTransform, Pipe } from "@angular/core";
 
 @Pipe({
   name: "truncate",
-  pure: true
+  pure: true,
 })
 @Injectable()
 export class TruncatePipe implements PipeTransform {

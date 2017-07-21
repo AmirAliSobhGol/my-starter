@@ -1,0 +1,41 @@
+{
+  "bootstrapVersion": 3,
+   "styleLoaders": [
+     "style-loader",
+     "css-loader",
+     "sass-loader"
+   ],
+   "env": {
+     "development": {
+       "extractStyles": false
+     },
+     "production": {
+       "extractStyles": true
+     }
+   },
+  "styles": {
+    "mixins": true,
+    "normalize": true,
+    "print": true,
+    "scaffolding": true,
+    "type": true,
+    "grid": true,
+    "tables": true,
+    "forms": true,
+    "buttons": true,
+    "dropdowns": true,
+    "button-groups": true,
+    "input-groups": true,
+    "breadcrumbs": true,
+    "labels": true,
+    "alerts": true,
+    "media": true,
+    "list-group": true,
+    "panels": true,
+    "responsive-embed": true,
+    "close": true,
+    "utilities": true,
+    "responsive-utilities": true
+  },
+  "scripts": false
+}

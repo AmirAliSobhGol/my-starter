@@ -3,8 +3,9 @@ import { NgModule, ApplicationRef } from "@angular/core";
 import {
   removeNgStyles,
   createNewHosts,
-  createInputTransfer
+  createInputTransfer,
 } from "@angularclass/hmr";
+import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -29,11 +30,16 @@ import "../styles/styles.scss";
   /**
    * Import Angular's modules.
    */
-  imports: [BrowserModule, AppRoutingModule, CoreModule.forRoot({})],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    CoreModule.forRoot(),
+    SlimLoadingBarModule.forRoot(),
+  ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.
    */
-  providers: [ENV_PROVIDERS]
+  providers: [ENV_PROVIDERS],
 })
 export class AppModule {
   constructor(appRef: ApplicationRef) {
@@ -60,7 +66,7 @@ export class AppModule {
 
   hmrOnDestroy(store) {
     const cmpLocation = this.appRef.components.map(
-      cmp => cmp.location.nativeElement
+      cmp => cmp.location.nativeElement,
     );
 
     /**

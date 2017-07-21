@@ -12,7 +12,7 @@ import { AppAuthService } from "../auth/auth.service";
 @Component({
   selector: "app-sidebar",
   styleUrls: ["sidebar.component.scss"],
-  templateUrl: "sidebar.component.pug"
+  templateUrl: "sidebar.component.pug",
 })
 export class SidebarComponent {
   showSideBar = false;
@@ -21,7 +21,7 @@ export class SidebarComponent {
   constructor(
     router: Router,
     toggleService: ToggleService,
-    appAuthService: AppAuthService
+    appAuthService: AppAuthService,
   ) {
     this.appAuthService = appAuthService;
     this.router = router;
@@ -39,7 +39,7 @@ export class SidebarComponent {
       });
 
     toggleService.toggle.subscribe(
-      () => (this.toggleSideBar = !this.toggleSideBar)
+      () => (this.toggleSideBar = !this.toggleSideBar),
     );
   }
 

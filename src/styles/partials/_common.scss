@@ -7,12 +7,14 @@
  * Create classes for margin and padding
  * for example margin-right, padding-large, margin-horizontal etc.
  */
-$small : 5px;
-$medium : 10px;
-$large : 15px;
-@each $attr in 'padding' 'margin' {
-  @each $value in '-small' $small, '-medium' $medium, '-large' $large, '' $medium {
-    @each $direction in 'top' 'right' 'bottom' 'left' {
+
+/* stylelint-disable max-nesting-depth*/
+$small: 5px;
+$medium: 10px;
+$large: 15px;
+@each $attr in "padding" "margin" {
+  @each $value in "-small" $small, "-medium" $medium, "-large" $large, "" $medium {
+    @each $direction in "top" "right" "bottom" "left" {
       .#{$attr}-#{$direction}#{nth($value, 1)} {
         #{$attr}-#{$direction}: nth($value, 2);
       }
@@ -23,7 +25,7 @@ $large : 15px;
     }
   }
 
-  @each $value in '-small' $small, '-medium' $medium, '-large' $large, '' $medium {
+  @each $value in "-small" $small, "-medium" $medium, "-large" $large, "" $medium {
     .#{$attr}-horizontal#{nth($value, 1)} {
       #{$attr}-left: nth($value, 2);
       #{$attr}-right: nth($value, 2);
@@ -42,7 +44,7 @@ $large : 15px;
  */
 
 .full {
-  @each $dimension in 'width' 'height' {
+  @each $dimension in "width" "height" {
     &-#{$dimension} {
       #{$dimension}: 100%;
     }
@@ -51,13 +53,14 @@ $large : 15px;
 
 @media (max-width: 51rem) {
   .full {
-    @each $dimension in 'width' 'height' {
+    @each $dimension in "width" "height" {
       &-#{$dimension}-mobile {
         #{$dimension}: 100%;
       }
     }
   }
 }
+/* stylelint-enable max-nesting-depth*/
 
 .clickable {
   cursor: pointer;

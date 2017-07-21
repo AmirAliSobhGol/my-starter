@@ -23,7 +23,7 @@ import { Directives } from "./directives/index";
     ReactiveFormsModule,
     ToggleComponent,
     TruncatePipe,
-    Directives
-  ]
+    Directives,
+  ],
 })
 export class SharedModule {}

@@ -15,7 +15,7 @@ import {
   SidebarComponent,
   ToggleService,
   UserGuard,
-  AdminGuard
+  AdminGuard,
 } from "./index";
 
 /**
@@ -26,17 +26,17 @@ import {
 @NgModule({
   imports: [SharedModule, HttpModule, RouterModule],
   declarations: [SidebarComponent],
-  exports: [SidebarComponent]
+  exports: [SidebarComponent],
 })
 export class CoreModule {
   constructor(
     @Optional()
     @SkipSelf()
-    parentModule: CoreModule
+    parentModule: CoreModule,
   ) {
     if (parentModule) {
       throw new Error(
-        "CoreModule is already loaded. Import it in the AppModule only"
+        "CoreModule is already loaded. Import it in the AppModule only",
       );
     }
   }
@@ -54,15 +54,15 @@ export class CoreModule {
         {
           provide: AuthHttp,
           useFactory: authHttpServiceFactory,
-          deps: [Http, RequestOptions]
+          deps: [Http, RequestOptions],
         },
         AuthGuard,
         AppAuthService,
         LoggedOutGuard,
         ToggleService,
         UserGuard,
-        AdminGuard
-      ]
+        AdminGuard,
+      ],
     };
   }
 }

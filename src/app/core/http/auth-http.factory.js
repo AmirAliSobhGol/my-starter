@@ -11,10 +11,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
       noJwtError: true,
       globalHeaders: [
         { "Content-Type": "application/json" },
-        { Accept: "application/json" }
-      ]
+        { Accept: "application/json" },
+      ],
     }),
     http,
-    options
+    options,
   );
 }

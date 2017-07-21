@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input } from "@angular/core";
 import { AppAuthService } from "core/auth/auth.service";
 @Directive({
-  selector: "[access]"
+  selector: "[access]",
 })
 export class AccessDirective {
   @Input("access") role;

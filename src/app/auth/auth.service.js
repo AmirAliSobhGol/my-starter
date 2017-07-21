@@ -12,7 +12,7 @@ export class AppAuthService {
     const maskedCredentials = _.pick(credentials, [
       "email",
       "password",
-      "remember"
+      "remember",
     ]);
     return this.authHttp.post("v1/dashboard/login", maskedCredentials);
   }
