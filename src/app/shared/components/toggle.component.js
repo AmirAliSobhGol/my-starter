@@ -6,11 +6,9 @@ import { ToggleService } from "core/sidebar/sidebar.service";
  * This class represents the toggle component.
  */
 @Component({
-  selector: "club-toggle",
+  selector: "sidebar-toggle",
   template: `
-    <button class='btn btn-primary' (click)="toggleSideBar()">
-      <span class="fa fa-bars"></span>
-    </button>
+      <i class="fa fa-bars fa-lg clickable" (click)="toggleSideBar()"></i>
   `,
 })
 export class ToggleComponent {

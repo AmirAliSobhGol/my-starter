@@ -12,8 +12,9 @@
 $small: 5px;
 $medium: 10px;
 $large: 15px;
+$xLarge: 20px;
 @each $attr in "padding" "margin" {
-  @each $value in "-small" $small, "-medium" $medium, "-large" $large, "" $medium {
+  @each $value in "-small" $small, "-medium" $medium, "-large" $large, "-xlarge" $xLarge, "" $medium {
     @each $direction in "top" "right" "bottom" "left" {
       .#{$attr}-#{$direction}#{nth($value, 1)} {
         #{$attr}-#{$direction}: nth($value, 2);
@@ -25,7 +26,7 @@ $large: 15px;
     }
   }
 
-  @each $value in "-small" $small, "-medium" $medium, "-large" $large, "" $medium {
+  @each $value in "-small" $small, "-medium" $medium, "-large" $large, "-xlarge" $xLarge, "" $medium {
     .#{$attr}-horizontal#{nth($value, 1)} {
       #{$attr}-left: nth($value, 2);
       #{$attr}-right: nth($value, 2);

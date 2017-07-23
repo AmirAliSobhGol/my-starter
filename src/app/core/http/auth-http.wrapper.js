@@ -1,10 +1,15 @@
 import { Injectable } from "@angular/core";
 import { AuthHttp } from "angular2-jwt";
-import { RequestOptionsArgs, Response } from "@angular/http";
+import { Response } from "@angular/http";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import { Observable } from "rxjs";
+import "rxjs/add/operator/retry";
+import { Observable, Subject } from "rxjs";
+
+export const HttpErrors = {
+  SomethingWentWrongError: "SomethingWentWrongError",
+};
 
 /*
  * Here we extend the AuthHttp to automatically add our API url and handle token.
@@ -12,45 +17,63 @@ import { Observable } from "rxjs";
  */
 @Injectable()
 export class CustomAuthHttp extends AuthHttp {
-  get(url: string, options?: RequestOptionsArgs) {
+  errorSource = new Subject();
+  errors = this.errorSource.asObservable();
+
+  get(url, options, expectedStatuses) {
     return super
       .get(API_URL + url, options)
       .do(this.handleToken.bind(this))
-      .map(this.extractData);
+      .map(this.extractData)
+      .retry(2)
+      .catch(this.handleError(expectedStatuses));
   }
 
-  post(url: string, body: any, options?: RequestOptionsArgs) {
+  post(url, body, expectedStatuses, options) {
     return super
       .post(API_URL + url, JSON.stringify(body), options)
       .do(this.handleToken.bind(this))
       .map(this.extractData)
-      .catch(this.handleError);
+      .retry(2)
+      .catch(this.handleError(expectedStatuses));
   }
 
-  put(url: string, body: any, options?: RequestOptionsArgs) {
+  put(url, body, expectedStatuses, options) {
     return super
       .put(API_URL + url, JSON.stringify(body), options)
       .do(this.handleToken.bind(this))
       .map(this.extractData)
-      .catch(this.handleError);
+      .retry(2)
+      .catch(this.handleError(expectedStatuses));
   }
 
-  delete(url: string, options?: RequestOptionsArgs) {
+  delete(url, expectedStatuses, options) {
     return super
       .delete(API_URL + url, options)
       .do(this.handleToken.bind(this))
       .map(this.extractData)
-      .catch(this.handleError);
+      .retry(2)
+      .catch(this.handleError(expectedStatuses));
   }
 
-  handleError(error) {
-    let err;
-    if (error instanceof Response) {
-      err = error.json() || "";
-    } else {
-      err = error.message ? error.message : error.toString();
-    }
-    return Observable.throw(err);
+  emitError(event) {
+    this.errorSource.next(event);
+  }
+
+  handleError(expectedStatuses = [200]) {
+    return error => {
+      // Show a something went wrong notification if the status isn't what is expected
+      if (!expectedStatuses.includes(error.status)) {
+        this.emitError(error);
+      }
+      let err;
+      if (error instanceof Response) {
+        err = error.json() || "";
+      } else {
+        err = error.message ? error.message : error.toString();
+      }
+      return Observable.throw(err);
+    };
   }
 
   extractData(res) {
@@ -62,7 +85,7 @@ export class CustomAuthHttp extends AuthHttp {
    * this method is added, because the server sends a refresh token on requests
    */
   handleToken(res) {
-    const token = res.headers.get("authorization");
+    const token = res.headers.get("Authorization");
     if (token) {
       localStorage.setItem(TOKEN_NAME, token);
     }

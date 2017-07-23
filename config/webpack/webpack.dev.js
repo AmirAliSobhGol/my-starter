@@ -116,6 +116,22 @@ module.exports = function (options) {
             'postcss-loader?sourceMap',
             'resolve-url-loader',
             'sass-loader?sourceMap',
+            {
+              loader: "sass-resources-loader",
+              options: {
+                resources: [
+                  helpers.root("src", "styles/resources/**/*.scss"),
+                  helpers.root(
+                    "node_modules",
+                    "bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss"
+                  ),
+                  helpers.root(
+                    "node_modules",
+                    "bootstrap-sass/assets/stylesheets/bootstrap/mixins/*.scss"
+                  ),
+                ],
+              },
+            },
           ],
           include: [helpers.root('src', 'styles')]
         },
@@ -126,7 +142,7 @@ module.exports = function (options) {
 
     plugins: [
 
-      new StyleLintPlugin(),
+      // new StyleLintPlugin(),
 
       /**
        * Plugin: DefinePlugin

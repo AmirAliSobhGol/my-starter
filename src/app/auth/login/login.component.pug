@@ -1,3 +1,27 @@
-.container
-  h2 Well
-  .panel Basic Well
+include ../../app.mixins.pug
+.wrapper
+  img.full-page(src="/assets/img/auth-background.png")
+  .content
+    .row
+      .col-md-4.col-xs-12
+        h2 Welcome Admin
+        p You can use this dashboard to manage valuations and assessors. Please login to find out more
+      .col-md-3.col-xs-12.auth-form
+        h3 Login
+        form([formGroup]='loginForm', novalidate, (ngSubmit)="submit()")
+          +input({name:"email", errors: {email: 'Please enter a valid email address'}})
+          +input({name:"password", errors: {any: 'Please enter a password'}})
+          .alert.alert-warning.animated.fadeIn([hidden]="!showError")
+            | Email and password don't match
+          .row
+            .col-xs-6
+              app-submit-button(
+              [subscription]="login",
+              [text]="'Login'",
+              [className]="'btn-success'")
+            .col-xs-6.pull-right.text-right
+              .checkbox
+                label
+                  input(type='checkbox', value='', checked, formControlName='remember')
+                  | Remember
+

@@ -1,12 +1,12 @@
-#wrapper([class.toggled]='toggleSideBar && showSideBar', [class.initial]='!showSideBar')
-  #sidebar-wrapper(*ngIf='showSideBar')
+.wrapper([class.toggled]='toggleSideBar && showSideBar', [class.initial]='!showSideBar')
+  .sidebar-wrapper(*ngIf='showSideBar')
     ul.sidebar-nav.full-width
       li.sidebar-brand
-        img.m-t-8.logo(src='/assets/img/part-logo@3x.png')
+        h1 Jtak
       li.menu
         p MENU
-      li.pointer(routerLink="/test" routerLinkActive="active-item")
-        a Test
+      li.pointer(routerLink="/assessor" routerLinkActive="active-item")
+        a Assessor
       li.pointer((click)='logout()')
-        a#logout Logout
+        a Logout
   ng-content

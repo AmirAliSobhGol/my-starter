@@ -1,4 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule, ApplicationRef } from "@angular/core";
 import {
   removeNgStyles,
@@ -6,6 +7,7 @@ import {
   createInputTransfer,
 } from "@angularclass/hmr";
 import { SlimLoadingBarModule } from "ng2-slim-loading-bar";
+import { ToastrModule } from "ngx-toastr";
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -33,8 +35,10 @@ import "../styles/styles.scss";
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     CoreModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

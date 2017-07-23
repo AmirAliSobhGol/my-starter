@@ -1,0 +1,53 @@
+include ../../app.mixins.pug
+.container-fluid
+  .heading
+    sidebar-toggle
+    h3.margin-left Home
+  .row
+    .col-md-8
+      h3.padding-0 Assessors
+      .light-gray
+        span {{data.total}} assessors found
+        span.pull-right
+          i.fa.fa-caret-left.primary-color.clickable(*ngIf="page > 1", (click)="moveToPage(page-1)")
+          span.margin-horizontal  Page {{page}} of {{numberOfPages}}
+          i.fa.fa-caret-right.primary-color.clickable(*ngIf="page < numberOfPages", (click)="moveToPage(page+1)")
+      .table-responsive.margin-top([ngBusy]="listSubscription")
+        table.table
+          thead
+            tr
+              th #
+              th Assessor
+              th Email
+          tbody
+            tr(*ngFor='let assessor of data.list; let index = index')
+              td {{index}}
+              td {{assessor.name}}
+              td {{assessor.email}}
+      //h3 Create your first assessor
+      //p Fill-in the form with assessor name, company and email.
+      //p
+      //  | We will send an email to assessor and invite them to the system.
+      //  | They can choose their own password at on boarding.
+      //
+    .col-md-3
+      h3 Invite Assessor
+      form([formGroup]='assessorForm', novalidate, (ngSubmit)="invite()")
+        +input({
+          name: "name",
+          errors: {required: 'Please enter assessor name'},
+          label: "Full Name"
+        })
+        +input({
+          name: "company",
+          errors: {required: 'Please enter assessor company name'},
+          label: "Company"
+        })
+        +input({
+          name: "email",
+          errors: {email: 'Please enter a valid email address'},
+          label: "Email"
+        })
+        app-submit-button(
+        [subscription]="inviteSubscription",
+        [text]="'Invite'")

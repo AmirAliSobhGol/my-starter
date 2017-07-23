@@ -71,6 +71,7 @@ module.exports = function(options) {
        */
       alias: {
         core: helpers.root("src", "app/core"),
+        guards: helpers.root("src", "app/core/auth/guards"),
       },
 
       /**
@@ -418,9 +419,9 @@ module.exports = function(options) {
        * Globally recognize variables as a module
        * for example _ as lodash or $ as jquery
        */
-      new webpack.ProvidePlugin({
-        _: "lodash",
-      }),
+      // new webpack.ProvidePlugin({
+      //   Jquery: "jquery",
+      // }),
 
       /**
        * Plugin: InlineManifestWebpackPlugin

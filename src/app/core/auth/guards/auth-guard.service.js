@@ -11,6 +11,7 @@ export class AuthGuard {
 
   canLoad() {
     if (this.auth.loggedIn()) {
+      this.router.navigate(["/assessor"]);
       return false;
     }
     return true;

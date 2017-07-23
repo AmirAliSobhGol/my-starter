@@ -1,70 +1,51 @@
-mixin form-group(field, errs)
-  - fieldName = field
-  - field = `${formName}.controls.${field}`
-  - condition = `! errCondition(${field}, ${formName})`
-  .form-group.has-feedback([class.has-error]=condition, [class.has-warning]=`conflicts?.${fieldName}`)
-    block
-    - errs = errs || {}
-    - pre = preErrMsg || 'Please enter'
-    - prettyFieldName = fieldName.replace(/([A-Z])/g, ' $1')
-    - prettyFieldName = prettyFieldName.charAt(0).toUpperCase() + prettyFieldName.slice(1)
-    - errs.required = errs.required || `${pre} ${prettyFieldName}`
-    each errKey in Object.keys(errs)
-      if errKey === '*' || errKey === 'any'
-        - errCondition = condition
-      else
-        - errCondition = `${condition} && ${field}.errors?.${errKey}`
-      small(*ngIf!=errCondition)
-        | #{errs[errKey]}
-        br
-    small(*ngIf!=`conflicts?.${fieldName}`) #{errs['conflict'] || `${prettyFieldName} has conflict`}
+mixin input({name, errors = {}, type, placeholder, label})
+  - errCondition = "['dirty', 'touched']"
 
-mixin submit-button(text, spinCondition, addPristine)
-  - spinCondition = spinCondition || 'gettingData'
-  - addPristine = addPristine || true
-  - errCondition = `!${formName}.valid`
-  if addPristine == true
-    - errCondition += ` || ${formName}.pristine`
-  button.btn.btn-primary.btn-block#submit(type='submit',
-  [disabled]=`!${formName}.valid || ${formName}.pristine`)&attributes(attributes)
-    span([hidden]=`! ${spinCondition}`)
-      i.fa.fa-spinner.fa-pulse
-    |  #{text}
+  // this mixin handles errors
+  mixin handle-form-group()
+    - fieldError = name + "Errors"
+    - attributes["#" + fieldError] = "ngxErrors";
+    .form-group.has-feedback([class.has-error]=`${fieldError}.hasError('*', ${errCondition})`)
+      block
+      span(ngxErrors=name)&attributes(attributes)
+        each errorKey in Object.keys(errors)
+          if errorKey in ["*", "any"]
+            +handle-any-error(fieldError)
+          else
+            small(ngxError=errorKey, [when]!=errCondition)
+              | #{errors[errorKey]}
 
-mixin input(name, placeholder, label, type)
-  - label = label || name.replace(/([A-Z])/g, ' $1')
-  if name.includes("email") || name.includes("Email")
-    - type = type || "email"
-  if name.includes("password") || name.includes("Password")
-    - type = type || "password"
-  else
-    - type = type || "text"
-  label.label-color(for=name)
-    | #{label}
-  input.form-control(type=type, name=name, formControlName=name, placeholder=placeholder)
-  span.glyphicon.glyphicon-warning-sign.form-control-feedback(*ngIf=`conflicts?.${name}`)
+  //
+   * Show the any Error only if a message for the current error isn't specified
+   * for example if the errors are {required: 'something', any: 'something Else'}
+   * This wil only show the any error if the error is anything but required
+   */
+  mixin handle-any-error(fieldError)
+    - hideAnyError = ""
+    each errorKey in Object.keys(errors)
+      if ! errorKey in ["*", "any"]
+        - hideAnyError += `${fieldError}.hasError('${errorKey}')`
+    span([hidden]=hideAnyError)
+      small([hidden]=`! ${fieldError}.hasErrors `)
+        | #{errors['*']}
 
-mixin textarea(name, placeholder, label, type)
-  - label = label || name.replace(/([A-Z])/g, ' $1')
-  if name.includes("email") || name.includes("Email")
-    - type = type || "email"
-  if name.includes("password") || name.includes("Password")
-    - type = type || "password"
-  else
-    - type = type || "text"
-  label.label-color(for=name)
-    | #{label}
-  textarea.form-control.custom-textarea-class(type=type, name=name, formControlName=name, placeholder=placeholder)&attributes(attributes)
+  mixin handle-input()
+    - prettyName = name.replace(/([A-Z])/g, ' $1')
+    - prettyName = prettyName.charAt(0).toUpperCase() + prettyName.slice(1)
+    - placeholder = placeholder || prettyName
+    if /(email|Email)/.test(name)
+      - type = type || "email"
+    if /(password|Password)/.test(name)
+      - type = type || "password"
+    else
+      - type = type || "text"
+    if !label
+      input.form-control(placeholder=placeholder, type=type, name=name, formControlName=name)
+    else
+      label(for=name)
+        | #{label}
+      input.form-control(type=type, name=name, formControlName=name, placeholder=placeholder)
 
-mixin input-without-label(name, type, placeholder)
-  - prettyName = name.replace(/([A-Z])/g, ' $1')
-  - prettyName = prettyName.charAt(0).toUpperCase() + prettyName.slice(1)
-  - placeholder = placeholder || prettyName
-  if name.includes("email") || name.includes("Email")
-    - type = type || "email"
-  if name.includes("password") || name.includes("Password")
-    - type = type || "password"
-  else
-    - type = type || "text"
-  input.form-control.capitalize-placeholder(placeholder=placeholder, type=type, name=name, formControlName=name)
+  +handle-form-group()
+    +handle-input()
 

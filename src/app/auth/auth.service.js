@@ -3,7 +3,7 @@ import { AuthHttp } from "angular2-jwt";
 import _ from "lodash";
 
 @Injectable()
-export class AppAuthService {
+export class AuthService {
   constructor(authHttp: AuthHttp) {
     this.authHttp = authHttp;
   }
@@ -14,6 +14,6 @@ export class AppAuthService {
       "password",
       "remember",
     ]);
-    return this.authHttp.post("v1/dashboard/login", maskedCredentials);
+    return this.authHttp.post("v1/admin/login", maskedCredentials);
   }
 }
